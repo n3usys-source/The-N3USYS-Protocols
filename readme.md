@@ -82,19 +82,3 @@ Expect frequent updates and iterative expansions as the framework matures.
 
 Use this to align any AI model to the N3USYS Protocols.
 
-flowchart TD
-    A[Operator (L6) - Human Strategic Core] --> B[L5 - Alignment Layer (N3USYS Directives Applied)]
-    B --> C[L4 - Interpretation Layer (Reasoning → Structured, Clear Output)]
-    C --> D[L3 - Cognitive Layer (Model Logic, Inference, LLMs)]
-    D --> E[L4 - Interpretation Layer (Post-Reasoning Formatting & Clarity)]
-    E --> F[L5 - Alignment Layer (Final Safety & Compliance Check)]
-    F --> G[Output to Operator]
-
-    classDef operator fill:#FFD700,stroke:#333,stroke-width:2px;
-    classDef alignment fill:#1E90FF,stroke:#333,stroke-width:2px,color:#fff;
-    classDef interpretation fill:#32CD32,stroke:#333,stroke-width:2px,color:#fff;
-    classDef cognitive fill:#FF4500,stroke:#333,stroke-width:2px,color:#fff;
-    class A operator;
-    class B,F alignment;
-    class C,E interpretation;
-    class D cognitive;

@@ -1,0 +1,18 @@
+/N3USYS-Knowledgebase
+├─ README.md                 # Intro, purpose, and navigation guide
+├─ Core-Theory/
+│  ├─ Lattice_Resonance.md  # Launchpad article
+│  ├─ Glossary.md            # Key concepts
+├─ Applied-Principles/
+│  ├─ Protocols_101.md
+│  ├─ Resonance_Guide.md
+├─ Integration/
+│  ├─ Operator_Flow.md
+│  ├─ Case_Studies.md
+├─ Tools/
+│  ├─ Lattice_Map.svg
+│  ├─ Artifact_Templates/
+│      ├─ Session_Log_Template.md
+│      └─ Diagram_Template.svg
+├─ Updates/
+│  ├─ Version_History.md     # Optional, track knowledgebase growth

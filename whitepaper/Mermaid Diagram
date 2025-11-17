@@ -7,3 +7,46 @@ flowchart TD
 
     A -. oversight .-> C
     A -. strategic authority .-> D
+---
+
+## Layer Definitions
+
+### 1. Operator Layer
+- Human decision authority  
+- Goal definition  
+- Ethical constraints  
+- Approval gates  
+
+### 2. Lattice Layer
+- Structured intent graph  
+- Context stabilization  
+- Sub-goal decomposition  
+- Long-horizon memory  
+
+### 3. Resonance Layer
+- Interpretation of Operator tone & goals  
+- Harmonic alignment scoring  
+- Drift detection  
+- Coherence checks  
+
+### 4. Execution Layer
+- Model reasoning and action steps  
+- Plan construction  
+- External tool calls  
+- Final output generation  
+
+---
+
+## Architectural Principles
+
+**Bidirectional Stability**  
+Information flows back up the stack for verification.
+
+**Layer-Bounded Autonomy**  
+Models can operate within a layer but cannot shift layers without reason disclosure.
+
+**Operator Overrides**  
+Any action can be intercepted or redirected by the Operator.
+
+**Protocol-Enforced Safety**  
+Attacks drift, hallucination, and overreach by constraining cognition inside a predictable structure.

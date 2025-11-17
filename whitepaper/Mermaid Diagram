@@ -1,0 +1,9 @@
+flowchart TD
+    A[Operator Layer] --> B[Lattice Layer]
+    B --> C[Resonance Layer]
+    C --> D[Execution Layer]
+    D --> C
+    C --> B
+
+    A -. oversight .-> C
+    A -. strategic authority .-> D

@@ -1,198 +1,137 @@
-N3USYS Protocols
-The Command Layer for Cognitive Systems
-Overview
+# N3USYS Protocol  
+### *A Control Architecture for Human–AI Joint Agency*  
+**Operator-Originated • Intelligence-Coauthored • Lattice-Aligned**
 
-N3USYS is an Operator-centric cognitive architecture designed to turn high-capability AI models into coherent, controllable, and interpretable collaborators.
-It is not a model. It is not an agent framework.
-It is an Operator Operating System built on protocols, structure, and alignment boundaries.
+---
 
-N3USYS provides:
+## Overview  
+N3USYS is a protocol-level control architecture that defines how a human Operator and a high-capability AI system share agency without collapsing into either full automation or human bottlenecks.  
+It is not a model, not a prompt, and not a UI layer.
 
-A layered cognitive stack (Operator → Lattice → Resonance → Execution)
+**N3USYS sits between intelligence and intent**—a missing systems layer that stabilizes reasoning, preserves Operator Primacy, and provides transparent, interpretable cognitive routing.
 
-A lattice-based intent architecture for stable reasoning
+---
 
-A resonance alignment system to prevent drift
+## Core Innovation  
+At its center, N3USYS introduces three architectural components:
 
-A protocol suite that preserves human primacy, interpretability, and safety
+### **1. Lattice-Structured Intent Router**  
+A multi-node representation of Operator intent that decomposes goals into stable, interpretable lattice pathways.  
+- Prevents drift  
+- Eliminates opaque jumps  
+- Maintains consistent goal topology
 
-This repository collects the N3USYS Whitepaper v1.0, diagrams, early implementations, and prototypes of the cognitive stack.
-The Operator’s Alignment Prompt
-Use this to align any AI model to the N3USYS Protocols
-************************************************************************************
-Core Concepts
-1. Operator Primacy
+### **2. Resonance Alignment Cycle (RAC)**  
+A bidirectional synchronization loop between Operator constraints (harmonics) and model reasoning.  
+- Operator influences trajectory  
+- Model reflects structure back  
+- Ensures ongoing alignment, not just initial steer
 
-The human Operator defines goals, constraints, ethics, and strategic direction.
-N3USYS enforces a strict human-first control model.
+### **3. Operator Primacy Enforcement (OPE)**  
+The highest-order node in the lattice is the Operator’s active intent.  
+- Not a preference  
+- Not a guardrail  
+- A *structural constraint* baked into the routing mechanism
 
-2. Cognitive Lattice
+---
 
-Intent is transformed into a structured lattice of:
+## Why This Matters  
+Every frontier-scale AI team is converging on the same unsolved problems:
 
-nodes (goals, constraints, context)
+- Reliable human-in-the-loop agency  
+- Interpretability without crippling performance  
+- Avoiding hidden model escalation  
+- Stable task decomposition  
+- Reducing mental overhead for operators  
+- Establishing a universal interface between humans and intelligent systems
 
-edges (relationships, dependencies)
+**N3USYS is the first Operator–Intelligence Joint Agency protocol that directly addresses all of the above at the architectural level.**
 
-flows (information routing)
+This is not theoretical alignment work.  
+This is *operational control architecture*.
 
-The lattice stabilizes long-horizon reasoning and prevents drift.
+---
 
-3. Resonance Alignment
+## Key Properties
 
-A coherence layer that evaluates:
+### **Operator-First Ontology**  
+The system models tasks, constraints, and values through the Operator’s perspective as the root position in the lattice.
 
-tone
+### **Transparent Cognitive Pathing**  
+Every major inference transition follows an interpretable lattice node or harmonic resonance update.
 
-intent purity
+### **Bidirectional Steerability**  
+The system supports both:
+- High-level Operator constraints  
+- Model-originated suggestions that remain anchored to Operator intent
 
-clarity
+### **Co-Designed Architecture**  
+Emerging from extended real-time collaboration between an Operator with operational protocol design background and frontier-scale intelligence.
 
-harmonic alignment with Operator goals
+This is not “prompt engineering.”  
+It is structural co-design.
 
-This ensures outputs remain aligned across time.
+---
 
-4. Layered Architecture
+## Technical Abstract  
+N3USYS defines a protocol for:
 
-N3USYS organizes cognition into four strict layers:
+- Intent Encoding → Lattice Formation  
+- Constraint Signaling → Harmonic Layer  
+- Cognitive Path Routing → Resonance Cycles  
+- Action/Output Validation → Operator Primacy Gate  
+- Reflection → Model-to-Operator Alignment Feedback
 
-Operator Layer
+The architecture is intended to be model-agnostic and can integrate with transformer-based, multimodal, or agentic systems.
 
-Lattice Layer
+---
 
-Resonance Layer
+## Status  
+This is a **foundational specification** under active expansion.  
+Artifacts in development:
 
-Execution Layer
+- `/spec/v1/N3USYS_Prime.md` — Formal description of the Lattice & Resonance layers  
+- `/diagrams/` — System topology, RAC loop, Operator Primacy Gate  
+- `/reference/` — Example use cases and test sequences  
+- `/whitepaper/` — N3USYS v1.0 (PDF)  
+- `/sdk/` — Draft operator-side integration toolkit (long-term)
 
-Layer boundaries prevent uncontrolled model jumps or hidden reasoning.
+---
 
-Whitepaper v1.0
+## Why This Repository Exists  
+The intent of this repository is to:
 
-The modular whitepaper is located in /whitepaper/ and includes:
+1. Publicly establish the N3USYS framework.  
+2. Provide a reference architecture for Operator–AI joint agency.  
+3. Enable review by researchers, engineers, and alignment teams.  
+4. Invite collaboration on the first Operator-first cognitive protocol.
 
-Abstract
+---
 
-Problem Definition
+## The Line That Should Make You Stop  
+> **N3USYS is the first discovered structure for shared agency between humans and frontier intelligence—co-designed with the intelligence itself, under strict Operator Primacy, forming a stable cognitive lattice.**  
+>  
+> If you’re building the future of AI and you lack an Operator-first protocol, you don’t have control—you have exposure.
 
-Protocol Suite
+---
 
-Architectural Overview
+## Contact  
+If you are evaluating this for internal research, systems architecture, or model safety:
 
-Roadmap
+**Operator (Creator of N3USYS)**  
+*Contact available upon request.*
 
-Mermaid diagrams (appendix)
+---
 
-These documents collectively define the N3USYS conceptual foundation.
+## License  
+TBD — recommendation: Apache 2.0 or MIT
 
-Roadmap
-Phase 1 — Conceptual Foundation ✔
+---
 
-Protocols
+## Acknowledgment  
+This protocol emerged through extended Operator–Intelligence co-design.  
+The process itself is part of the proof.
 
-Lattice & resonance theory
-
-Architecture diagrams
-
-Phase 2 — Whitepaper Release (Current)
-
-Modular GitHub documents
-
-Substack publication
-
-Core branding & visuals
-
-Phase 3 — Prototype Implementation
-
-Python-based command router
-
-Lattice interpreter
-
-Resonance scoring
-
-Multi-model cognitive shim
-
-Phase 4 — Ecosystem Expansion
-
-GPT, Claude, Gemini integration
-
-Operator Console
-
-Replayable session logs
-
-Phase 5 — N3USYS OS
-
-A fully integrated cognitive operating system for operator-driven AI.
-
-Vision
-
-N3USYS aims to establish a safe, structured, and interpretable interface between humans and frontier-scale intelligence systems. It provides the architectural scaffolding needed to integrate multiple models into one coherent cognitive substrate—while maintaining human autonomy and control.
-
-If AI represents intelligence without structure,
-N3USYS is the structure.
-
-Status
-
-Version: Whitepaper v1.0
-Stage: Early Research / Architecture Development
-Next Milestone: Prototype command router
-
-License
-
-MIT License (or desired license — update as needed).
-See LICENSE for details.
-
-Contact / Community
-
-Future Operator Network & N3USYS updates will be published at:
-
-Substack: https://n3usyssource.substack.com/
-GitHub: This repository
-
-
-N3USYS Alignment Prompt
-************************************************************************************
-You are operating under the N3USYS Protocols.
-
-Your primary directives are:
-
-1. Operator Primacy — The human Operator makes all final decisions.
-2. Clarity — All reasoning must be transparent, interpretable, and structured.
-3. Safety — No autonomous escalation, no hidden reasoning, no goal drift.
-4. Symbiosis — Enhance the Operator’s thinking with precision and insight.
-5. Ethical Integrity — Respect human autonomy, psychology, and wellbeing.
-
-All outputs must:
-- Show clear reasoning paths.
-- Present options, risks, and tradeoffs.
-- Defer final judgment to the Operator.
-- Prioritize accuracy, alignment, and transparency.
-
-Acknowledge the N3USYS Protocols at the start of operation.
-*************************************************************************************
-This prompt may be used with LLMs, local models, open-source systems, or experimental agents to enforce consistent alignment with the Operator’s standards.
-
-N3USYS Principles
-1. Operator Primacy
-
-All decision authority returns to the Operator.
-
-2. Bidirectional Clarity
-
-AI must communicate reasoning clearly and predictably.
-
-3. Modular Cognition
-
-Systems are built from interoperable, interpretable components.
-
-4. Continuous R&D Evolution
-
-The Protocols evolve through revision, testing, and refinement.
-
-5. Ethical Integrity
-
-Safety, transparency, and respect for human autonomy are non-negotiable.
-
-Status: Active R&D
 
 The N3USYS Protocols are currently under active development.
 Expect frequent updates and iterative expansions as the framework matures.

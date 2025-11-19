@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyberpunk Mermaid Diagram</title>
+
+<!-- Mermaid JS -->
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    securityLevel: 'loose',
+    flowchart: { curve: 'linear' }
+  });
+</script>
+
+<!-- Custom Cyberpunk CSS -->
+<style>
+body {
+    background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #1f2020 100%);
+    color: #ccc;
+    font-family: 'Trebuchet MS', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Neon grid background */
+body::before {
+    content: '';
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background-image:
+      linear-gradient(rgba(0,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,0,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+}
+
+/* Mermaid diagram container */
+#mermaid-diagram-mermaid-xv9m917 {
+    font-family:"Trebuchet MS",verdana,arial,sans-serif;
+    font-size:16px;
+    fill:#ccc;
+}
+
+/* Node styling */
+#mermaid-diagram-mermaid-xv9m917 .node rect,
+#mermaid-diagram-mermaid-xv9m917 .node circle,
+#mermaid-diagram-mermaid-xv9m917 .node ellipse {
+    fill:#111;
+    stroke: #0ff;
+    stroke-width:2px;
+    filter: drop-shadow(0 0 6px #0ff) drop-shadow(0 0 10px #0ff);
+}
+
+/* Text styling */
+#mermaid-diagram-mermaid-xv9m917 .label text {
+    fill: #0ff;
+    font-weight: bold;
+    text-shadow: 0 0 4px #0ff, 0 0 8px #0ff;
+}
+
+/* Edge styling */
+#mermaid-diagram-mermaid-xv9m917 .edgePath .path {
+    stroke: #f0f;
+    stroke-width: 2px;
+    stroke-dasharray: 6,4;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 6px #f0f);
+    animation: dash 12s linear infinite;
+}
+
+@keyframes dash { to { stroke-dashoffset: 1000; } }
+
+/* Arrowheads */
+#mermaid-diagram-mermaid-xv9m917 .arrowheadPath {
+    fill: #f0f;
+}
+
+/* Clusters */
+#mermaid-diagram-mermaid-xv9m917 .cluster rect {
+    fill: rgba(255,0,255,0.05);
+    stroke: #f0f;
+    stroke-width: 1px;
+}
+
+/* Tooltip */
+#mermaid-diagram-mermaid-xv9m917 div.mermaidTooltip {
+    position:absolute;
+    text-align:center;
+    max-width:200px;
+    padding:2px;
+    font-family:"Trebuchet MS",verdana,arial,sans-serif;
+    font-size:12px;
+    background:#111;
+    border:1px solid #0ff;
+    border-radius:2px;
+    pointer-events:none;
+    z-index:100;
+}
+
+/* Flowchart title */
+#mermaid-diagram-mermaid-xv9m917 .flowchartTitleText{
+    text-anchor:middle;
+    font-size:18px;
+    fill:#0ff;
+}
+
+/* Container header */
+h1 {
+    text-align:center;
+    margin:1rem 0;
+    color:#0ff;
+    text-shadow: 0 0 4px #0ff, 0 0 10px #0ff;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Cyberpunk Mermaid Diagram</h1>
+
+<!-- Mermaid Diagram -->
+<div class="mermaid" id="mermaid-diagram-mermaid-xv9m917">
+graph TD
+    A[Start] --> B[Process 1]
+    B --> C{Decision?}
+    C -->|Yes| D[Process 2]
+    C -->|No| E[End]
+    D --> E
+    %% Example cluster
+    subgraph CL1[Subsystem Cluster]
+      F[Subprocess 1] --> G[Subprocess 2]
+    end
+    B --> F
+</div>
+
+</body>
+</html>

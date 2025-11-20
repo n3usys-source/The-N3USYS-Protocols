@@ -1,0 +1,66 @@
+# N3USYS Lattice & Resonance Prototype
+
+## Overview
+
+This is a web-based prototype of the **N3USYS Operator Interface**, demonstrating a lattice-style network visualization that reacts to operator input and live data feeds. The goal of this prototype is to illustrate **real-time network resonance**, information flow, and interactive intent routing.
+
+The visualization integrates:
+
+- **Lattice Nodes**: Representing conceptual states and the Operator node.
+- **Resonance Waves**: Visual feedback indicating the coherence and intensity of network interactions.
+- **Live RSS Feed**: Streams live content from TechCrunch to demonstrate dynamic information propagation through the lattice.
+
+## Features
+
+1. **Interactive Lattice Visualization**
+   - The central node represents the Operator.
+   - Nodes move and interact based on noise fields and resonance intensity.
+   - Connections between nodes highlight network coherence.
+   - Resonance waves propagate outward from the Operator node.
+
+2. **Operator Controls**
+   - **Add Intent Pulse**: Injects new nodes into the lattice, expanding its structure.
+   - **Force Resonance**: Temporarily amplifies lattice coherence.
+   - **Reset Lattice**: Resets the lattice to its initial state.
+   - **Resonance Meter**: Displays current resonance intensity.
+
+3. **RSS Sidebar**
+   - Streams a live RSS feed from TechCrunch.
+   - Updates every 5 minutes.
+   - Serves as an external information source to influence visualization contextually.
+
+4. **Explanation Text**
+   - A text block at the bottom describes the lattice behavior and live feed to the user.
+
+## Technologies Used
+
+- **HTML5 & CSS3**: Layout, styling, and UI elements.
+- **JavaScript (ES6)**: Core lattice simulation, node movement, and resonance handling.
+- **Canvas API**: Real-time rendering of nodes, connections, and resonance waves.
+- **Simplex Noise**: Adds smooth procedural movement to nodes.
+- **RSS Parsing**: Uses a simple CORS proxy to fetch and display live feed content.
+
+## How to Use
+
+1. Open `index.html` in a modern browser.
+2. Interact with the controls at the top:
+   - **Add Intent Pulse**: Adds nodes to the lattice.
+   - **Force Resonance**: Boosts network resonance.
+   - **Reset Lattice**: Returns the lattice to its initial state.
+3. Observe the live RSS feed in the right-hand sidebar.
+4. Watch the lattice respond visually to user actions and resonance levels.
+
+## Future Directions
+
+- Integration with other live data sources (social media feeds, APIs).
+- Additional resonance-based interactions.
+- Enhanced UI/UX for operator monitoring and control.
+- Advanced network analysis and visualization overlays.
+
+## License
+
+This prototype is provided for demonstration purposes. It may be freely used, modified, and extended for research or personal projects.
+
+---
+
+**Visual Note:** Nodes glow and pulse according to resonance, while the RSS feed in the sidebar represents real-time external information. The footer explains what the user is seeing.

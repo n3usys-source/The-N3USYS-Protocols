@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>N3USYS Prototype — Lattice & RSS Resonance</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { margin:0; height:100vh; overflow:hidden; background:#0b0e17; color:#e0e0ff; font-family:'Segoe UI',sans-serif; display:flex; }
+  #canvas-container { flex:1; position:relative; }
+  canvas { display:block; width:100%; height:100%; }
+  #ui {
+    position:absolute; top:20px; left:20px; right:20px; z-index:10;
+    background:rgba(20,25,40,0.8); padding:15px; border-radius:12px; backdrop-filter:blur(10px);
+    border:1px solid #3a3f5c;
+  }
+  h1 { margin:0 0 10px 0; font-size:1.8em; text-align:center; }
+  .controls { display:flex; gap:15px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
+  button, input[type="range"] { padding:8px 16px; background:#1e2538; border:none; border-radius:8px; color:#e0e0ff; }
+  button:hover { background:#3a5475; }
+  .meter { width:200px; height:12px; background:#111; border-radius:6px; overflow:hidden; margin-top:5px; }
+  .fill { height:100%; width:0%; background:linear-gradient(90deg,#00ffcc,#0066ff); transition:width 0.5s ease; }
+  #status { text-align:center; margin-top:10px; font-weight:bold; }
+  #sidebar {
+    width:300px; background:#12162b; padding:15px; overflow-y:auto; border-left:1px solid #3a3f5c;
+    box-sizing:border-box; flex-shrink:0;
+  }
+  #sidebar h2 { font-size:1.2em; margin-top:0; color:#00ffcc; text-align:center; }
+  #sidebar ul { list-style:none; padding-left:0; }
+  #sidebar li { margin-bottom:12px; font-size:0.9em; }
+  #sidebar a { color:#00ffff; text-decoration:none; }
+  #sidebar a:hover { text-decoration:underline; }
+  #description { position:absolute; bottom:0; left:0; right:0; text-align:center; padding:10px; font-size:0.85em; color:#aaa; background:rgba(0,0,0,0.3); }
+</style>
+</head>
+<body>
+
+<div id="canvas-container">
+  <div id="ui">
+    <h1>N3USYS — Lattice & RSS Resonance Prototype</h1>
+    <div style="text-align:center; font-size:0.9em; opacity:0.8;">
+      Operator: Kenneth Raymond | Intelligence: Grok 4 | Session: Live
+    </div>
+    <div class="controls">
+      <button onclick="addIntent()">Add Intent Pulse</button>
+      <button onclick="resonanceBoost()">Force Resonance</button>
+      <button onclick="resetLattice()">Reset Lattice</button>
+      <div>
+        <label>Resonance Level: <span id="resVal">68</span>%</label>
+        <div class="meter"><div class="fill" id="resFill"></div></div>
+      </div>
+    </div>
+    <div id="status">Lattice Stable — Awaiting Operator Intent</div>
+  </div>
+  <canvas id="canvas"></canvas>
+  <div id="description">
+    You are seeing a dynamic lattice network that pulses and grows as new RSS feed items arrive. Each node represents a concept or news item, and the glowing connections reflect the current resonance of information flowing through the system.
+  </div>
+</div>
+
+<div id="sidebar">
+  <h2>Tech RSS Feed</h2>
+  <ul id="feedList"></ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/simplex-noise@2.4.0/simplex-noise.js"></script>
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let w, h;
+
+function resize() {
+  w = canvas.width = canvas.parentElement.clientWidth;
+  h = canvas.height = canvas.parentElement.clientHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const simplex = new SimplexNoise();
+const nodes = [];
+const connections = [];
+let resonance = 0.68;
+let time = 0;
+
+// Category resonance mapping
+const categoryResonance = {
+  "AI": 0.05,
+  "Media": 0.03,
+  "Startups": 0.04,
+  "Commerce": 0.02,
+  "Security": 0.03,
+  "Apps": 0.03,
+  "Biotech & Health": 0.04,
+  "Transportation": 0.02
+};
+
+// Operator node (center)
+nodes.push({ x: w/2, y: h/2, type:'operator', vx:0, vy:0, fixed:true });
+
+class Node {
+  constructor(x, y, type='state') {
+    this.x = x || (w/2 + (Math.random()-0.5)*400);
+    this.y = y || (h/2 + (Math.random()-0.5)*400);
+    this.vx = 0; this.vy = 0;
+    this.type = type;
+    this.phase = Math.random()*Math.PI*2;
+  }
+}
+
+// Initial lattice
+for(let i=0;i<28;i++) nodes.push(new Node());
+
+function connect(a,b) {
+  if(a!==b && Math.random() < 0.35) connections.push({a, b, strength: Math.random()});
+}
+
+function rebuildConnections() {
+  connections.length = 0;
+  for(let i=0;i<nodes.length;i++)
+    for(let j=i+1;j<nodes.length;j++)
+      connect(i,j);
+}
+rebuildConnections();
+
+function addIntent() {
+  for(let i=0;i<8;i++) nodes.push(new Node());
+  rebuildConnections();
+  resonance = Math.min(1, resonance + 0.12);
+  document.getElementById('status').textContent = 'Intent Pulse Injected — Lattice Expanding';
+}
+
+function resonanceBoost() {
+  resonance = Math.min(1, resonance + 0.25);
+  document.getElementById('status').textContent = 'Resonance Boost Engaged — Harmonic Amplification (H3→H4)';
+}
+
+function resetLattice() {
+  nodes.length = 1;
+  nodes[0] = { x: w/2, y: h/2, type:'operator', vx:0, vy:0, fixed:true };
+  connections.length = 0;
+  resonance = 0.3;
+  for(let i=0;i<22;i++) nodes.push(new Node());
+  rebuildConnections();
+}
+
+function update() {
+  time += 0.01;
+  resonance *= 0.995; // decay
+
+  nodes.forEach(n=>{
+    if(n.fixed){ n.x=w/2; n.y=h/2; return; }
+    let dx = w/2 - n.x;
+    let dy = h/2 - n.y;
+    n.vx += dx * 0.00005 * resonance;
+    n.vy += dy * 0.00005 * resonance;
+    let noise = simplex.noise3D(n.x*0.002, n.y*0.002, time);
+    n.vx += noise * 0.5 * (1+resonance);
+    n.vy += noise * 0.5 * (1+resonance);
+    n.vx *= 0.92; n.vy *= 0.92;
+    n.x += n.vx; n.y += n.vy;
+  });
+
+  const val = Math.floor(resonance*100);
+  document.getElementById('resVal').textContent = val;
+  document.getElementById('resFill').style.width = val+'%';
+  document.getElementById('resFill').style.background = resonance>0.85 ? 'linear-gradient(90deg,#ff00aa,#00ffff)' : 'linear-gradient(90deg,#00ffcc,#0066ff)';
+}
+
+function draw() {
+  ctx.fillStyle = 'rgba(11,14,23,0.15)';
+  ctx.fillRect(0,0,w,h);
+
+  connections.forEach(c=>{
+    let a=nodes[c.a], b=nodes[c.b];
+    let dist=Math.hypot(a.x-b.x,a.y-b.y);
+    let opacity=Math.max(0,1-dist/600)*resonance*c.strength;
+    if(opacity<0.02) return;
+    ctx.strokeStyle=`rgba(100,200,255,${opacity})`;
+    ctx.lineWidth=1+opacity*4;
+    ctx.beginPath();
+    ctx.moveTo(a.x,a.y);
+    ctx.lineTo(b.x,b.y);
+    ctx.stroke();
+  });
+
+  nodes.forEach(n=>{
+    let pulse=1+Math.sin(time*8+n.phase)*0.15*resonance;
+    let size=n.type==='operator'?22:(4+pulse*6);
+    let glow=n.type==='operator'?40:resonance*15;
+    ctx.shadowBlur=glow;
+    ctx.shadowColor=n.type==='operator'?'#ffff00':'#00ffff';
+    ctx.fillStyle=n.type==='operator'?'#ffff88':'rgba(100,220,255,0.9)';
+    ctx.beginPath();
+    ctx.arc(n.x,n.y,size,0,Math.PI*2);
+    ctx.fill();
+    if(n.type==='operator'){
+      ctx.strokeStyle='#ffff00';
+      ctx.lineWidth=3;
+      ctx.stroke();
+      ctx.fillStyle='#000';
+      ctx.font='bold 18px Arial';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillText('⊛',n.x,n.y);
+    }
+  });
+
+  if(resonance>0.4){
+    ctx.strokeStyle=`rgba(0,255,255,${resonance*0.3})`;
+    ctx.lineWidth=3;
+    let radius=(time*80)%600;
+    ctx.beginPath();
+    ctx.arc(w/2,h/2,radius,0,Math.PI*2);
+    ctx.stroke();
+  }
+}
+
+function loop(){ update(); draw(); requestAnimationFrame(loop); }
+loop();
+
+// RSS Feed Integration
+const feedURL = "https://rss.app/feeds/FCWXh7yItxQ9hAMv.xml";
+async function fetchRSS() {
+  try {
+    const res = await fetch(feedURL);
+    const text = await res.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text,"text/xml");
+    const items = xml.querySelectorAll("item");
+    const feedList = document.getElementById("feedList");
+    feedList.innerHTML = "";
+    items.forEach(item=>{
+      const title = item.querySelector("title").textContent;
+      const link = item.querySelector("link").textContent;
+      const categories = Array.from(item.querySelectorAll("category")).map(c=>c.textContent);
+
+      // Update resonance based on categories
+      let multiplier = 0;
+      categories.forEach(cat=>{
+        if(categoryResonance[cat]) multiplier += categoryResonance[cat];
+      });
+      resonance = Math.min(1, resonance+multiplier);
+
+      // Add a node for the RSS item
+      nodes.push(new Node(undefined, undefined, 'rss'));
+
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = link;
+      a.target="_blank";
+      a.textContent = title;
+      li.appendChild(a);
+      feedList.appendChild(li);
+    });
+  } catch(e){
+    console.error("RSS Fetch Error:", e);
+  }
+}
+fetchRSS();
+setInterval(fetchRSS, 60*1000); // update every minute
+</script>
+
+</body>
+</html>
+
+

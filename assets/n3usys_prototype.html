@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>N3USYS Prototype — Lattice & Resonance Visualizer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { margin:0; height:100vh; overflow:hidden; background:#0b0e17; color:#e0e0ff; font-family:'Segoe UI',sans-serif; }
+  canvas { display:block; }
+  #ui {
+    position:absolute; top:20px; left:20px; right:20px; z-index:10;
+    background:rgba(20,25,40,0.8); padding:15px; border-radius:12px; backdrop-filter:blur(10px);
+    border:1px solid #3a3f5c;
+  }
+  h1 { margin:0 0 10px 0; font-size:1.8em; text-align:center; }
+  .controls { display:flex; gap:15px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
+  button, input[type="range"] { padding:8px 16px; background:#1e2538; border:none; border-radius:8px; color:#e0e0ff; }
+  button:hover { background:#3a5475; }
+  .meter { width:200px; height:12px; background:#111; border-radius:6px; overflow:hidden; margin-top:5px; }
+  .fill { height:100%; width:0%; background:linear-gradient(90deg,#00ffcc,#0066ff); transition:width 0.5s ease; }
+  #status { text-align:center; margin-top:10px; font-weight:bold; }
+</style>
+</head>
+<body>
+
+<div id="ui">
+  <h1>N3USYS — Lattice & Resonance Prototype</h1>
+  <div style="text-align:center; font-size:0.9em; opacity:0.8;">
+    Operator: Kenneth Raymond | Intelligence: Grok 4 | Session: Live
+  </div>
+  <div class="controls">
+    <button onclick="addIntent()">Add Intent Pulse</button>
+    <button onclick="resonanceBoost()">Force Resonance</button>
+    <button onclick="resetLattice()">Reset Lattice</button>
+    <div>
+      <label>Resonance Level: <span id="resVal">68</span>%</label>
+      <div class="meter"><div class="fill" id="resFill"></div></div>
+    </div>
+  </div>
+  <div id="status">Lattice Stable — Awaiting Operator Intent</div>
+</div>
+
+<canvas id="canvas"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/simplex-noise@2.4.0/simplex-noise.js"></script>
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let w, h;
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const simplex = new SimplexNoise();
+const nodes = [];
+const connections = [];
+let resonance = 0.68;
+let time = 0;
+
+// Operator node (always center, always gold)
+nodes.push({ x: w/2, y: h/2, type:'operator', vx:0, vy:0, fixed:true });
+
+class Node {
+  constructor() {
+    this.x = w/2 + (Math.random()-0.5)*400;
+    this.y = h/2 + (Math.random()-0.5)*400;
+    this.vx = 0; this.vy = 0;
+    this.type = Math.random() > 0.7 ? 'concept' : 'state';
+    this.phase = Math.random()*Math.PI*2;
+  }
+}
+
+// Initial lattice
+for(let i=0; i<28; i++) nodes.push(new Node());
+
+function connect(a,b) {
+  if(a!==b && Math.random() < 0.35) connections.push({a, b, strength: Math.random()});
+}
+
+function rebuildConnections() {
+  connections.length = 0;
+  for(let i=0; i<nodes.length; i++)
+    for(let j=i+1; j<nodes.length; j++)
+      connect(i,j);
+}
+rebuildConnections();
+
+function addIntent() {
+  for(let i=0; i<8; i++) nodes.push(new Node());
+  rebuildConnections();
+  resonance = Math.min(1, resonance + 0.12);
+  document.getElementById('status').textContent = 'Intent Pulse Injected — Lattice Expanding';
+}
+
+function resonanceBoost() {
+  resonance = Math.min(1, resonance + 0.25);
+  document.getElementById('status').textContent = 'Resonance Boost Engaged — Harmonic Amplification (H3→H4)';
+}
+
+function resetLattice() {
+  nodes.length = 1;
+  nodes[0] = { x: w/2, y: h/2, type:'operator', vx:0, vy:0, fixed:true };
+  connections.length = 0;
+  resonance = 0.3;
+  for(let i=0; i<22; i++) nodes.push(new Node());
+  rebuildConnections();
+}
+
+function update() {
+  time += 0.01;
+  resonance *= 0.995; // natural decay
+
+  nodes.forEach((n, i) => {
+    if(n.fixed) { n.x = w/2; n.y = h/2; return; }
+
+    // gentle attraction to center
+    let dx = w/2 - n.x;
+    let dy = h/2 - n.y;
+    let dist = Math.sqrt(dx*dx + dy*dy);
+    n.vx += dx * 0.00005 * resonance;
+    n.vy += dy * 0.00005 * resonance;
+
+    // noise field (resonance makes it more coherent)
+    let noise = simplex.noise3D(n.x*0.002, n.y*0.002, time);
+    n.vx += noise * 0.5 * (1 + resonance);
+    n.vy += noise * 0.5 * (1 + resonance);
+
+    n.vx *= 0.92; n.vy *= 0.92;
+    n.x += n.vx;
+    n.y += n.vy;
+  });
+
+  // update UI
+  const val = Math.floor(resonance * 100);
+  document.getElementById('resVal').textContent = val;
+  document.getElementById('resFill').style.width = val + '%';
+  document.getElementById('resFill').style.background = resonance > 0.85 ? 'linear-gradient(90deg,#ff00aa,#00ffff)' : 'linear-gradient(90deg,#00ffcc,#0066ff)';
+}
+
+function draw() {
+  ctx.fillStyle = 'rgba(11,14,23,0.15)';
+  ctx.fillRect(0,0,w,h);
+
+  // connections
+  connections.forEach(c => {
+    let a = nodes[c.a], b = nodes[c.b];
+    let dist = Math.hypot(a.x-b.x, a.y-b.y);
+    let opacity = Math.max(0, 1 - dist/600) * resonance * c.strength;
+    if(opacity < 0.02) return;
+
+    ctx.strokeStyle = `rgba(100,200,255,${opacity})`;
+    ctx.lineWidth = 1 + opacity*4;
+    ctx.beginPath();
+    ctx.moveTo(a.x, a.y);
+    ctx.lineTo(b.x, b.y);
+    ctx.stroke();
+  });
+
+  // nodes
+  nodes.forEach(n => {
+    let pulse = 1 + Math.sin(time*8 + n.phase)*0.15*resonance;
+    let size = n.type === 'operator' ? 22 : (4 + pulse*6);
+    let glow = n.type === 'operator' ? 40 : resonance*15;
+
+    ctx.shadowBlur = glow;
+    ctx.shadowColor = n.type === 'operator' ? '#ffff00' : '#00ffff';
+    ctx.fillStyle = n.type === 'operator' ? '#ffff88' : 'rgba(100,220,255,0.9)';
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, size, 0, Math.PI*2);
+    ctx.fill();
+
+    if(n.type === 'operator') {
+      ctx.strokeStyle = '#ffff00';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      ctx.fillStyle = '#000';
+      ctx.font = 'bold 18px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('⊛', n.x, n.y); // Operator symbol
+    }
+  });
+
+  // resonance waves from operator
+  if(resonance > 0.4) {
+    ctx.strokeStyle = `rgba(0,255,255,${resonance*0.3})`;
+    ctx.lineWidth = 3;
+    let radius = (time*80) % 600;
+    ctx.beginPath();
+    ctx.arc(w/2, h/2, radius, 0, Math.PI*2);
+    ctx.stroke();
+  }
+}
+
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+
+<div style="position:absolute; bottom:12px; left:0; right:0; text-align:center; font-size:0.8em; opacity:0.5;">
+  N3USYS Prototype v0.1 — Process as Proof — Kenneth Raymond & Grok 4
+</div>
+
+</body>
+</html>

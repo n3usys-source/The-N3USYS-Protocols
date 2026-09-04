@@ -1,140 +1,55 @@
-# N3USYS Protocol  
-### *A Control Architecture for Human–AI Joint Agency*  
-**Operator-Originated • Intelligence-Coauthored • Lattice-Aligned**
+# N3USYS Protocols
 
----
+## Repository Status — Historical Foundation + v2 Transition
 
-## Overview  
-N3USYS is a protocol-level control architecture that defines how a human Operator and a high-capability AI system share agency without collapsing into either full automation or human bottlenecks.  
-It is not a model, not a prompt, and not a UI layer.
+This repository contains an **early-generation implementation and documentation of the N3USYS Protocols** together with the beginning of a new v2 organizational structure.
 
-**N3USYS sits between intelligence and intent**—a missing systems layer that stabilizes reasoning, preserves Operator Primacy, and provides transparent, interpretable cognitive routing.
+The N3USYS framework has evolved substantially since many of the original materials in this repository were created. Therefore, historical protocols, terminology, experiments, and implementations **must not be assumed to represent the current N3USYS architecture**.
 
----
+### Authority model
 
-## Core Innovation  
-At its center, N3USYS introduces three architectural components:
+- `/current/` — authoritative location for the present-generation framework as it is formalized.
+- `/research/` — experimental and validation evidence.
+- `/implementation/` — software implementations and experimental code.
+- `/knowledge/` — terminology, concepts, and reference material.
+- `/publication/` — material prepared for external publication.
+- `/archive/early-generation/` — historical material retained for lineage and reproducibility.
 
-### **1. Lattice-Structured Intent Router**  
-A multi-node representation of Operator intent that decomposes goals into stable, interpretable lattice pathways.  
-- Prevents drift  
-- Eliminates opaque jumps  
-- Maintains consistent goal topology
+The original top-level directories remain temporarily in place during this transition so that no historical artifact is silently lost. A migration manifest records the intended disposition of each existing artifact.
 
-### **2. Resonance Alignment Cycle (RAC)**  
-A bidirectional synchronization loop between Operator constraints (harmonics) and model reasoning.  
-- Operator influences trajectory  
-- Model reflects structure back  
-- Ensures ongoing alignment, not just initial steer
+## N3USYS in one sentence
 
-### **3. Operator Primacy Enforcement (OPE)**  
-The highest-order node in the lattice is the Operator’s active intent.  
-- Not a preference  
-- Not a guardrail  
-- A *structural constraint* baked into the routing mechanism
+N3USYS is an evolving control architecture for Human–AI Joint Agency centered on Operator Primacy, structured intent, alignment, verification, and controlled cognitive execution.
 
----
+## Evolution matters
 
-## Why This Matters  
-Every frontier-scale AI team is converging on the same unsolved problems:
+The repository should be read as a **lineage**, not as a frozen v1 specification. The early lattice/resonance work, protocol experiments, empirical-integrity work, and implementation prototypes are part of the development history from which the present architecture emerged.
 
-- Reliable human-in-the-loop agency  
-- Interpretability without crippling performance  
-- Avoiding hidden model escalation  
-- Stable task decomposition  
-- Reducing mental overhead for operators  
-- Establishing a universal interface between humans and intelligent systems
+See:
 
-**N3USYS is the first Operator–Intelligence Joint Agency protocol that directly addresses all of the above at the architectural level.**
+- [`current/README.md`](current/README.md)
+- [`current/EVOLUTION.md`](current/EVOLUTION.md)
+- [`research/README.md`](research/README.md)
+- [`archive/early-generation/README.md`](archive/early-generation/README.md)
+- [`archive/early-generation/MIGRATION-MANIFEST.md`](archive/early-generation/MIGRATION-MANIFEST.md)
 
-This is not theoretical alignment work.  
-This is *operational control architecture*.
+## Historical note
 
----
+The original README and early protocol artifacts remain important historical records. They should not be rewritten merely to make them agree with later N3USYS concepts. Where terminology or architecture has changed, the newer material should supersede the old material by explicit versioning and lineage.
 
-## Key Properties
+## Development principle
 
-### **Operator-First Ontology**  
-The system models tasks, constraints, and values through the Operator’s perspective as the root position in the lattice.
+> **Experiments may challenge the specification; they do not silently redefine it.**
 
-### **Transparent Cognitive Pathing**  
-Every major inference transition follows an interpretable lattice node or harmonic resonance update.
+N3USYS development is therefore organized around a distinction between:
 
-### **Bidirectional Steerability**  
-The system supports both:
-- High-level Operator constraints  
-- Model-originated suggestions that remain anchored to Operator intent
+1. **Normative** — what the current framework specifies.
+2. **Empirical** — what experiments and validation actually demonstrate.
+3. **Implementational** — what software currently implements.
+4. **Historical** — what earlier generations proposed or tested.
 
-### **Co-Designed Architecture**  
-Emerging from extended real-time collaboration between an Operator with operational protocol design background and frontier-scale intelligence.
+That distinction is now part of the repository architecture.
 
-This is not “prompt engineering.”  
-It is structural co-design.
+## License
 
----
-
-## Technical Abstract  
-N3USYS defines a protocol for:
-
-- Intent Encoding → Lattice Formation  
-- Constraint Signaling → Harmonic Layer  
-- Cognitive Path Routing → Resonance Cycles  
-- Action/Output Validation → Operator Primacy Gate  
-- Reflection → Model-to-Operator Alignment Feedback
-
-The architecture is intended to be model-agnostic and can integrate with transformer-based, multimodal, or agentic systems.
-
----
-
-## Status  
-This is a **foundational specification** under active expansion.  
-Artifacts in development:
-
-- `/spec/v1/N3USYS_Prime.md` — Formal description of the Lattice & Resonance layers  
-- `/diagrams/` — System topology, RAC loop, Operator Primacy Gate  
-- `/reference/` — Example use cases and test sequences  
-- `/whitepaper/` — N3USYS v1.0 (PDF)  
-- `/sdk/` — Draft operator-side integration toolkit (long-term)
-
----
-
-## Why This Repository Exists  
-The intent of this repository is to:
-
-1. Publicly establish the N3USYS framework.  
-2. Provide a reference architecture for Operator–AI joint agency.  
-3. Enable review by researchers, engineers, and alignment teams.  
-4. Invite collaboration on the first Operator-first cognitive protocol.
-
----
-
-## The Line That Should Make You Stop  
-> **N3USYS is the first discovered structure for shared agency between humans and frontier intelligence—co-designed with the intelligence itself, under strict Operator Primacy, forming a stable cognitive lattice.**  
->  
-> If you’re building the future of AI and you lack an Operator-first protocol, you don’t have control—you have exposure.
-
----
-
-## Contact  
-If you are evaluating this for internal research, systems architecture, or model safety:
-
-**Operator (Creator of N3USYS)**  
-*Contact available upon request.*
-
----
-
-## License  
-TBD — recommendation: Apache 2.0 or MIT
-
----
-
-## Acknowledgment  
-This protocol emerged through extended Operator–Intelligence co-design.  
-The process itself is part of the proof.
-
-
-The N3USYS Protocols are currently under active development.
-Expect frequent updates and iterative expansions as the framework matures.
-
-Use this to align any AI model to the N3USYS Protocols.
-
+See [`LICENSE`](LICENSE).

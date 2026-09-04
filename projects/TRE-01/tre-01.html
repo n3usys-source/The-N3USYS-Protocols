@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>N3USYS TRE-01 — Temporal Reference Engine</title>
+<style>
+:root{
+  --bg:#05080b; --panel:#0a0f13; --panel2:#0d151b; --line:#263740;
+  --text:#dffaff; --muted:#8fd3df; --cyan:#63d7e8; --blue:#7ab8ff;
+  --amber:#e0a65b; --green:#74d6a0; --red:#ef7d86;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:
+ radial-gradient(circle at 50% 8%,#10212a 0,#070b0f 38%,#030506 100%);
+ color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+body{padding:24px;overflow-x:hidden}
+.instrument{max-width:1420px;margin:auto;background:#070b0e;border:1px solid #34434a;
+ box-shadow:0 30px 90px #000,0 0 0 1px #000 inset;border-radius:10px;overflow:hidden}
+.topbar{height:62px;border-bottom:1px solid var(--line);display:flex;align-items:center;
+ justify-content:space-between;padding:0 22px;background:linear-gradient(#11191e,#080d11)}
+.brand{letter-spacing:.18em;font-weight:700}.brand span{color:var(--cyan)}
+.mode{font-size:11px;color:var(--muted);letter-spacing:.14em}.mode b{color:var(--green)}
+.main{display:grid;grid-template-columns:minmax(500px,1.15fr) minmax(390px,.85fr);gap:0}
+.core{min-height:650px;position:relative;border-right:1px solid var(--line);background:
+ radial-gradient(circle at 50% 48%,rgba(72,171,210,.12),transparent 28%),
+ radial-gradient(circle at 50% 48%,rgba(50,90,110,.08),transparent 55%);}
+.core canvas{width:100%;height:100%;min-height:650px;display:block}
+.readout{position:absolute;left:28px;bottom:24px;right:28px;border:1px solid #263942;
+ background:rgba(4,9,12,.78);backdrop-filter:blur(4px);padding:14px 16px}
+.label{font-size:10px;letter-spacing:.18em;color:#8fdbe6}
+.time{font-size:34px;letter-spacing:.08em;color:#e7f7f8;margin-top:4px}
+.rate{font-size:12px;color:var(--cyan);margin-top:5px}
+.side{padding:20px;background:linear-gradient(180deg,#0a1014,#070b0e)}
+h2{font-size:12px;letter-spacing:.18em;font-weight:500;color:#9ee6f0;margin:0 0 12px}
+.graph{height:230px;border:1px solid var(--line);background:#05090c;position:relative;margin-bottom:20px}
+.graph canvas{width:100%;height:100%;display:block}
+.graph .axis{position:absolute;left:10px;right:10px;bottom:10px;height:1px;background:#18262d}
+.rows{border:1px solid var(--line);margin-bottom:18px}
+.row{display:grid;grid-template-columns:100px 1fr 100px;gap:8px;padding:9px 11px;border-bottom:1px solid #17242a;font-size:11px}
+.row:last-child{border:0}.name{color:#83cbd7}.value{color:#dce9eb;text-align:right}.status{color:var(--green)}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{font:inherit;color:var(--text);background:#0d151a;border:1px solid #35474f;padding:11px;
+ cursor:pointer;letter-spacing:.08em;font-size:10px}
+button:hover{border-color:var(--cyan);box-shadow:0 0 16px rgba(99,215,232,.12)}
+button.active{border-color:var(--cyan);color:var(--cyan);background:#0b1a20}
+.footer{border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;
+ color:#76b9c5;font-size:9px;letter-spacing:.12em}
+@media(max-width:900px){.main{grid-template-columns:1fr}.core{border-right:0;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<div class="instrument">
+  <header class="topbar">
+    <div class="brand">N3USYS <span>/</span> TEMPORAL REFERENCE ENGINE <span>/ TRE-01</span></div>
+    <div class="mode">SYSTEM STATE: <b id="state">STABLE</b></div>
+  </header>
+
+  <main class="main">
+    <section class="core">
+      <canvas id="core" aria-label="Animated temporal reference core"></canvas>
+      <div class="readout">
+        <div class="label">LOCAL SYSTEM TIME / UNDISCIPLINED BROWSER REFERENCE</div>
+        <div class="time" id="time">--:--:--.---</div>
+        <div class="rate">dτ/dt ≈ <span id="rate">1.000000000000</span> · browser monotonic reference active</div>
+      </div>
+    </section>
+
+    <aside class="side">
+      <h2>TEMPORAL CONSENSUS / LIVE SIMULATION</h2>
+      <div class="graph"><canvas id="graph"></canvas><div class="axis"></div></div>
+
+      <h2>REFERENCE ARRAY</h2>
+      <div class="rows">
+        <div class="row"><span class="name">ATOMIC</span><span>frequency reference</span><span class="value" id="atomic">+0.000 ns</span></div>
+        <div class="row"><span class="name">GNSS</span><span>external time source</span><span class="value" id="gnss">+0.000 ns</span></div>
+        <div class="row"><span class="name">ROTATION</span><span>Earth orientation model</span><span class="value" id="rotation">+0.000 ns</span></div>
+        <div class="row"><span class="name">INERTIAL</span><span>local motion model</span><span class="value" id="inertial">+0.000 ns</span></div>
+        <div class="row"><span class="name">CONSENSUS</span><span>simulated weighted mean</span><span class="value status" id="consensus">+0.000 ns</span></div>
+      </div>
+
+      <h2>RELATIVISTIC STATE</h2>
+      <div class="rows">
+        <div class="row"><span class="name">VELOCITY</span><span>Earth orbital model</span><span class="value">29.78 km/s</span></div>
+        <div class="row"><span class="name">GRAVITY</span><span>surface approximation</span><span class="value">−6.26e7 J/kg</span></div>
+        <div class="row"><span class="name">SIDEREAL</span><span>Earth rotation phase</span><span class="value" id="sidereal">--:--:--</span></div>
+        <div class="row"><span class="name">JULIAN DATE</span><span>UTC-derived</span><span class="value" id="jd">----------</span></div>
+      </div>
+
+      <div class="controls">
+        <button id="reference" class="active">REFERENCE MODE</button>
+        <button id="observe">OBSERVE MODE</button>
+        <button id="freeze">FREEZE TRACE</button>
+        <button id="reset">RESET STATE</button>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <span>TIME IS NOT OBSERVED. CHANGE IS OBSERVED.</span>
+    <span>TRE-01 / SOFTWARE PROTOTYPE / NO EXTERNAL REFERENCE CONNECTED</span>
+  </footer>
+</div>
+
+<script>
+"use strict";
+const core=document.getElementById("core"), cc=core.getContext("2d");
+const graph=document.getElementById("graph"), gc=graph.getContext("2d");
+let W=0,H=0,GW=0,GH=0,phase=0,last=performance.now(),frozen=false,mode="REFERENCE";
+const traces=[[],[],[],[]], N=180;
+
+function fit(c,ctx){
+  const r=c.getBoundingClientRect(), d=Math.max(1,devicePixelRatio||1);
+  c.width=Math.round(r.width*d); c.height=Math.round(r.height*d); ctx.setTransform(d,0,0,d,0,0);
+  return [r.width,r.height];
+}
+function resize(){[W,H]=fit(core,cc);[GW,GH]=fit(graph,gc)}
+addEventListener("resize",resize); resize();
+
+function circle(ctx,x,y,r,stroke,lw=1,alpha=1){
+  ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.strokeStyle=stroke;
+  ctx.globalAlpha=alpha;ctx.lineWidth=lw;ctx.stroke();ctx.globalAlpha=1;
+}
+function line(ctx,x1,y1,x2,y2,stroke,lw=1,alpha=1){
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=stroke;
+  ctx.globalAlpha=alpha;ctx.lineWidth=lw;ctx.stroke();ctx.globalAlpha=1;
+}
+function coreDraw(t){
+  cc.clearRect(0,0,W,H);
+  const cx=W*.5,cy=H*.46, R=Math.min(W,H)*.30;
+  const g=cc.createRadialGradient(cx,cy,5,cx,cy,R*1.5);
+  g.addColorStop(0,"rgba(88,205,235,.16)");g.addColorStop(.35,"rgba(60,150,190,.05)");g.addColorStop(1,"rgba(0,0,0,0)");
+  cc.fillStyle=g;cc.fillRect(0,0,W,H);
+  circle(cc,cx,cy,R,"#314951",2,.8);
+  circle(cc,cx,cy,R*.88,"#1b3139",1,.9);
+  circle(cc,cx,cy,R*.64,"#29434b",1,.9);
+  cc.save();cc.translate(cx,cy);cc.rotate(t*.00012);
+  cc.beginPath();cc.ellipse(0,0,R*.76,R*.30,.12,0,Math.PI*2);cc.strokeStyle="#5aaebe";cc.lineWidth=2;cc.globalAlpha=.7;cc.stroke();cc.restore();
+  cc.save();cc.translate(cx,cy);cc.rotate(-t*.00008);
+  cc.beginPath();cc.ellipse(0,0,R*.30,R*.76,-.18,0,Math.PI*2);cc.strokeStyle="#6f9fc0";cc.lineWidth=2;cc.globalAlpha=.55;cc.stroke();cc.restore();
+  cc.save();cc.translate(cx,cy);cc.rotate(t*.00017);
+  cc.beginPath();cc.ellipse(0,0,R*.55,R*.55,.7,0,Math.PI*2);cc.strokeStyle="#89d8e2";cc.lineWidth=1;cc.globalAlpha=.5;cc.stroke();cc.restore();
+  const s=R*.25, sg=cc.createRadialGradient(cx-s*.3,cy-s*.35,2,cx,cy,s);
+  sg.addColorStop(0,"#d5fbff");sg.addColorStop(.18,"#7cc9dc");sg.addColorStop(.55,"#244c5b");sg.addColorStop(1,"#071116");
+  cc.fillStyle=sg;cc.beginPath();cc.arc(cx,cy,s,0,Math.PI*2);cc.fill();
+  circle(cc,cx,cy,s,"#9aeaf4",1,.75);
+  for(let i=0;i<72;i++){
+    const a=i*Math.PI*2/72, r1=R*.93, r2=R*(i%6===0?.88:.905);
+    line(cc,cx+Math.cos(a)*r1,cy+Math.sin(a)*r1,cx+Math.cos(a)*r2,cy+Math.sin(a)*r2,i%6===0?"#789199":"#40545b",i%6===0?1.4:.6,.8);
+  }
+  cc.fillStyle="#83cbd7";cc.font="9px ui-monospace";cc.textAlign="center";
+  cc.fillText("TEMPORAL REFERENCE GEOMETRY",cx,cy+R+26);
+}
+function sample(t){
+  const base=Math.sin(t*.0012)*2.2+Math.sin(t*.00031)*1.1;
+  const vals=[base+Math.sin(t*.006)*.22,base*.7+Math.sin(t*.0041+1.4)*.42,base*1.25+Math.sin(t*.0028+2.1)*.35,base*.45+Math.sin(t*.0053+3.2)*.5];
+  vals.forEach((v,i)=>{if(!frozen){traces[i].push(v);if(traces[i].length>N)traces[i].shift()}});
+  const consensus=vals.reduce((a,b)=>a+b,0)/vals.length;
+  document.getElementById("atomic").textContent=(vals[0]*10).toFixed(3)+" ns";
+  document.getElementById("gnss").textContent=(vals[1]*10).toFixed(3)+" ns";
+  document.getElementById("rotation").textContent=(vals[2]*10).toFixed(3)+" ns";
+  document.getElementById("inertial").textContent=(vals[3]*10).toFixed(3)+" ns";
+  document.getElementById("consensus").textContent=(consensus*10).toFixed(3)+" ns";
+}
+function graphDraw(){
+  gc.clearRect(0,0,GW,GH);gc.strokeStyle="#132128";gc.lineWidth=1;
+  for(let y=25;y<GH;y+=35){gc.beginPath();gc.moveTo(0,y);gc.lineTo(GW,y);gc.stroke()}
+  const cols=["#62d7e8","#78aee8","#75c89f","#d1a15c"];
+  traces.forEach((arr,j)=>{if(arr.length<2)return;gc.beginPath();arr.forEach((v,i)=>{const x=10+i*(GW-20)/(N-1), y=GH*.5-v*GH*.055;i?gc.lineTo(x,y):gc.moveTo(x,y)});gc.strokeStyle=cols[j];gc.globalAlpha=.8;gc.lineWidth=1.25;gc.stroke();gc.globalAlpha=1});
+}
+function julian(d){return d.getTime()/86400000+2440587.5}
+function sidereal(d){
+  const jd=julian(d), T=(jd-2451545)/36525;
+  let gst=280.46061837+360.98564736629*(jd-2451545)+.000387933*T*T-T*T*T/38710000;
+  gst=((gst%360)+360)%360; const h=gst/15, hh=Math.floor(h), mm=Math.floor((h-hh)*60), ss=Math.floor((((h-hh)*60)-mm)*60);
+  return [hh,mm,ss].map(x=>String(x).padStart(2,"0")).join(":");
+}
+function updateTime(){
+  const d=new Date(), ms=d.getMilliseconds(), s=d.getSeconds(),m=d.getMinutes(),h=d.getHours();
+  document.getElementById("time").textContent=[h,m,s].map(x=>String(x).padStart(2,"0")).join(":")+"."+String(ms).padStart(3,"0");
+  document.getElementById("sidereal").textContent=sidereal(d);
+  document.getElementById("jd").textContent=julian(d).toFixed(8);
+  document.getElementById("rate").textContent="1.000000000000";
+}
+function loop(t){const dt=t-last;last=t;phase+=dt;coreDraw(phase);sample(t);graphDraw();updateTime();requestAnimationFrame(loop)}
+document.getElementById("reference").onclick=()=>{mode="REFERENCE";document.getElementById("reference").classList.add("active");document.getElementById("observe").classList.remove("active");document.getElementById("state").textContent="STABLE"};
+document.getElementById("observe").onclick=()=>{mode="OBSERVE";document.getElementById("observe").classList.add("active");document.getElementById("reference").classList.remove("active");document.getElementById("state").textContent="OBSERVING"};
+document.getElementById("freeze").onclick=e=>{frozen=!frozen;e.currentTarget.classList.toggle("active",frozen);e.currentTarget.textContent=frozen?"RESUME TRACE":"FREEZE TRACE"};
+document.getElementById("reset").onclick=()=>traces.forEach(a=>a.splice(0,a.length));
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
